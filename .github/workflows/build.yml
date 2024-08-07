@@ -20,11 +20,11 @@ jobs:
       - name: Build NoCheatPlus
         run: mvn clean package -P nonfree_build -P all
 
-      - name: Upload NoCheatPlus
-        uses: marvinpinto/action-automatic-releases@master
+      - name: Get the date
+        id: date
+        run: echo "::set-output name=date::$(date +'%m-%d')"
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
         with:
-          title: "NoCheatPlus"
-          automatic_release_tag: "ncp"
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: "target/*.jar"
-          prerelease: true
+          name: ${{ steps.date.outputs.date }}-Snow-Motd
+          path: target/*.jar
